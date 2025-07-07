@@ -1,13 +1,13 @@
-package client;
+package hyunw9.client;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Main {
+public class ClientApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Main.class, args);
+        SpringApplication.run(ClientApplication.class, args);
     }
-}
 
+}
