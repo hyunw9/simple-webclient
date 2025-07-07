@@ -46,3 +46,4 @@ bin/
 /discovery/settings.gradle.kts
 /discovery/HELP.md
 !/.idea/
+/client/.gradle
