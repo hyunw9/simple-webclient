@@ -9,5 +9,7 @@ public enum TimeoutOption {
     CUSTOM(Duration.ZERO);
     public final Duration duration;
 
-    TimeoutOption(Duration d) {duration = d;}
+    TimeoutOption(Duration duration) {
+        this.duration = duration;
+    }
 }

@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
+import hyunw9.client.core.Chain;
 import hyunw9.client.core.RequestFilter;
 import hyunw9.client.core.RequestSpec;
 

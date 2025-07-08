@@ -5,20 +5,16 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import hyunw9.client.config.ConfigActionResolver;
-import hyunw9.client.core.RetryOption;
-import hyunw9.client.core.TimeoutOption;
 import hyunw9.client.discovery.ServiceDiscovery;
-import hyunw9.client.util.TemplateUtil;
-import hyunw9.client.webclient.Requester;
 
 public final class ActionExecutor {
 
 	private final ServiceDiscovery discovery;
 	private final ConfigActionResolver config;
 
-	public ActionExecutor(ServiceDiscovery d, ConfigActionResolver c) {
-		this.discovery = d;
-		this.config = c;
+	public ActionExecutor(ServiceDiscovery discovery, ConfigActionResolver cationConfigResolver) {
+		this.discovery = discovery;
+		this.config = cationConfigResolver;
 	}
 
 	public <T> CompletableFuture<T> action(

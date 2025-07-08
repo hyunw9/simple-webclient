@@ -14,9 +14,9 @@ public enum RetryOption {
 	public final Duration base;
 	public final double factor;
 
-	RetryOption(int a, Duration b, double f) {
-		attempts = a;
-		base = b;
-		factor = f;
+	RetryOption(int attempts, Duration base, double factor) {
+		this.attempts = attempts;
+		this.base = base;
+		this.factor = factor;
 	}
 }

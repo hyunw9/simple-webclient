@@ -6,10 +6,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public record RequestSpec(HttpMethod method,
-						  URI uri,
-						  Map<String, String> headers,
-						  String jsonBody) {
+public record RequestSpec(
+	HttpMethod method,
+	URI uri,
+	Map<String, String> headers,
+	String jsonBody
+) {
 
 	public static Builder to(String url) {
 		return new Builder(url);
@@ -26,22 +28,22 @@ public record RequestSpec(HttpMethod method,
 			this.url = url;
 		}
 
-		private static String encode(String s) {
-			return URLEncoder.encode(s, StandardCharsets.UTF_8);
+		private static String encode(String string) {
+			return URLEncoder.encode(string, StandardCharsets.UTF_8);
 		}
 
-		public Builder method(HttpMethod m) {
-			method = m;
+		public Builder method(HttpMethod method) {
+			this.method = method;
 			return this;
 		}
 
-		public Builder header(String k, String v) {
-			headers.put(k, v);
+		public Builder header(String key, String value) {
+			headers.put(key, value);
 			return this;
 		}
 
-		public Builder param(String k, Object v) {
-			params.put(k, v);
+		public Builder param(String key, Object value) {
+			params.put(key, value);
 			return this;
 		}
 
@@ -54,8 +56,8 @@ public record RequestSpec(HttpMethod method,
 			StringBuilder sb = new StringBuilder(url);
 			if (!params.isEmpty()) {
 				sb.append("?");
-				params.forEach((k, v) -> sb.append(encode(k)).append("=")
-					.append(encode(String.valueOf(v))).append("&"));
+				params.forEach((key, value) -> sb.append(encode(key)).append("=")
+					.append(encode(String.valueOf(value))).append("&"));
 				sb.setLength(sb.length() - 1);
 			}
 			return new RequestSpec(method, URI.create(sb.toString()),

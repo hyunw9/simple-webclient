@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
+import hyunw9.client.core.Chain;
 import hyunw9.client.core.RequestFilter;
 import hyunw9.client.core.RequestSpec;
 import hyunw9.client.core.RetryOption;
@@ -15,30 +16,30 @@ public class RetryFilter implements RequestFilter {
 	private final Duration base;
 	private final double factor;
 
-	public RetryFilter(RetryOption o) {
-		attempts = o.attempts;
-		base = o.base;
-		factor = o.factor;
+	public RetryFilter(RetryOption option) {
+		attempts = option.attempts;
+		base = option.base;
+		factor = option.factor;
 	}
 
 	@Override
-	public CompletionStage<Response> apply(RequestSpec s, Chain n) {
+	public CompletionStage<Response> apply(RequestSpec spec, Chain chain) {
 		var p = new CompletableFuture<Response>();
-		attempt(s, n, 1, p, base);
+		attempt(spec, chain, 1, p, base);
 		return p;
 	}
 
-	private void attempt(RequestSpec s, Chain n, int i,
-		CompletableFuture<Response> p, Duration d) {
-		n.proceed(s).whenComplete((r, e) -> {
+	private void attempt(RequestSpec spec, Chain chain, int i,
+		CompletableFuture<Response> responseFuture, Duration duration) {
+		chain.proceed(spec).whenComplete((r, e) -> {
 			if (e == null) {
-				p.complete(r);
+				responseFuture.complete(r);
 			} else if (i < attempts) {
-				var next = d.multipliedBy((long)factor);
-				CompletableFuture.delayedExecutor(d.toMillis(), TimeUnit.MILLISECONDS)
-					.execute(() -> attempt(s, n, i + 1, p, next));
+				var next = duration.multipliedBy((long)factor);
+				CompletableFuture.delayedExecutor(duration.toMillis(), TimeUnit.MILLISECONDS)
+					.execute(() -> attempt(spec, chain, i + 1, responseFuture, next));
 			} else {
-				p.completeExceptionally(e);
+				responseFuture.completeExceptionally(e);
 			}
 		});
 	}

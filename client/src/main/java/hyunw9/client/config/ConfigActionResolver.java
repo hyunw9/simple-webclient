@@ -22,9 +22,10 @@ public final class ConfigActionResolver {
 		return CompletableFuture.supplyAsync(()-> cache.computeIfAbsent(domain,this::load))
 			.thenApply(m-> m.get(action));
 	}
+
 	private Map<String,ActionMeta> load(String domain){
 		final String json = client.get()
-			.uri(base+ '/' +domain+"/default")
+			.uri(base+ '/' +domain+"/health") // 기본값 헬스체크로 설정
 			.retrieve().bodyToMono(String.class).block();
 		record Wrapper(Map<String,ActionMeta> actions){}
 		return JsonUtil.fromJson(json, Wrapper.class).actions();

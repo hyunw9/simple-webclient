@@ -7,10 +7,10 @@ public final class TemplateUtil {
 	}
 
 	public static String resolve(String template, Map<String, Object> vars) {
-		String r = template;
-		for (var e : vars.entrySet()) {
-			r = r.replace('{' + e.getKey() + '}', String.valueOf(e.getValue()));
+		String resolve = template;
+		for (var entry : vars.entrySet()) {
+			resolve = resolve.replace('{' + entry.getKey() + '}', String.valueOf(entry.getValue()));
 		}
-		return r;
+		return resolve;
 	}
 }
